@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Para mi Valentina</title>
+    <style>
+        body {
+            text-align: center;
+            background-color: #f8f8f8;
+            font-family: "Arial", sans-serif;
+        }
+        h1 {
+            color: #333;
+        }
+        .container {
+            margin-top: 50px;
+        }
+        .roses {
+            display: none;
+            width: 250px;
+            margin: 20px auto;
+        }
+        .message {
+            font-size: 20px;
+            font-weight: bold;
+            color: #555;
+            margin-top: 20px;
+            display: none;
+        }
+        .btn {
+            padding: 10px 20px;
+            font-size: 18px;
+            background-color: #d4af37;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background 0.3s ease;
+        }
+        .btn:hover {
+            background-color: #b5962e;
+        }
+        .simulation {
+            display: none;
+            margin-top: 30px;
+        }
+        .birds {
+            position: relative;
+            width: 300px;
+            height: 100px;
+            margin: 0 auto;
+        }
+        .bird {
+            position: absolute;
+            width: 50px;
+            height: 50px;
+            background-image: url('https://cdn-icons-png.flaticon.com/512/60/60992.png');
+            background-size: cover;
+            transition: all 2s ease;
+        }
+        .bird1 {
+            left: 0;
+            top: 0;
+        }
+        .bird2 {
+            right: 0;
+            top: 50px;
+        }
+        .plane {
+            position: absolute;
+            width: 100px;
+            height: 50px;
+            background-image: url('https://cdn-icons-png.flaticon.com/512/2972/2972035.png');
+            background-size: cover;
+            top: -50px;
+            left: 50%;
+            transform: translateX(-50%);
+            animation: fly 5s linear infinite;
+        }
+        @keyframes fly {
+            0% { left: -100px; }
+            100% { left: 100%; }
+        }
+        .countdown {
+            font-size: 24px;
+            font-weight: bold;
+            color: #333;
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Para mi Valentina</h1>
+        <button class="btn" onclick="nextMessage()">Dame click</button>
+        <div class="message"></div>
+        <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/3/3b/White_roses_bouquet.jpg/640px-White_roses_bouquet.jpg" class="roses" alt="Ramo de rosas blancas">
+        
+        <!-- Simulación de pajaritos y avión -->
+        <div class="simulation">
+            <div class="birds">
+                <div class="bird bird1"></div>
+                <div class="bird bird2"></div>
+                <div class="plane"></div>
+            </div>
+            <div class="countdown"></div>
+        </div>
+    </div>
+
+    <script>
+        let index = 0;
+        const button = document.querySelector(".btn");
+        const messageDiv = document.querySelector(".message");
+        const roses = document.querySelector(".roses");
+        const simulation = document.querySelector(".simulation");
+        const countdownDiv = document.querySelector(".countdown");
+
+        const buttonTexts = [
+            "Dame click",
+            "De nuevo",
+            "Vamos otra vez",
+            "Una más",
+            "La última, lo prometo",
+            "Bueno, una más"
+        ];
+
+        const messages = [
+            "Te amo",
+            "Te extraño",
+            "Quiero verte",
+            "Perdón por no hacer esto ayer, pero hoy es más bonito porque no te lo esperabas",
+            "Cada día que pasa, te amo más",
+            "Eres mi todo, mi amor"
+        ];
+
+        function nextMessage() {
+            if (index < messages.length) {
+                messageDiv.textContent = messages[index];
+                messageDiv.style.display = "block";
+                button.textContent = buttonTexts[index % buttonTexts.length];
+                index++;
+            } else {
+                messageDiv.textContent = "Un día más para un día menos";
+                roses.style.display = "block";
+                button.style.display = "none";
+                simulation.style.display = "block";
+                startSimulation();
+                startCountdown();
+            }
+        }
+
+        function startSimulation() {
+            const bird1 = document.querySelector(".bird1");
+            const bird2 = document.querySelector(".bird2");
+
+            // Animación para que los pajaritos se encuentren
+            setTimeout(() => {
+                bird1.style.left = "125px";
+                bird1.style.top = "25px";
+                bird2.style.right = "125px";
+                bird2.style.top = "25px";
+            }, 1000);
+
+            // Animación para que se besen
+            setTimeout(() => {
+                bird1.style.transform = "rotate(-20deg)";
+                bird2.style.transform = "rotate(20deg)";
+            }, 3000);
+        }
+
+        function startCountdown() {
+            const targetDate = new Date("2025-02-24T10:00:00");
+            const interval = setInterval(() => {
+                const now = new Date();
+                const diff = targetDate - now;
+
+                if (diff <= 0) {
+                    clearInterval(interval);
+                    countdownDiv.textContent = "¡Ya es hora!";
+                    return;
+                }
+
+                const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+                const hours = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+                const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+                const seconds = Math.floor((diff % (1000 * 60)) / 1000;
+
+                countdownDiv.textContent = `${days}d ${hours}h ${minutes}m ${seconds}s`;
+            }, 1000);
+        }
+    </script>
+</body>
+</html>
